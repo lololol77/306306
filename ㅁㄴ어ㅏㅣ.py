@@ -14,7 +14,7 @@ def message_input():
         name = st.text_input("이름")
         number = st.text_input("번호 (0~23)")  # 0번은 담임쌤
         message = st.text_area("하고 싶은 말")
-        song = st.text_input("추천 노래 (제목 또는 유튜브 링크)")
+        song = st.text_input("추천 노래 (유튜브 링크)")
 
         if st.form_submit_button("저장하기"):
             if name and number and message:
