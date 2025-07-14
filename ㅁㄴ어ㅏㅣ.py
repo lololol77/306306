@@ -116,4 +116,4 @@ def poll_block(question, label1, label2):
             votes_1 = sum(1 for e in entries if e.get("vote") == "1")
             votes_2 = sum(1 for e in entries if e.get("vote") == "2")
             st.write(f"📈 {label1}: {votes_1}표 | {label2}: {votes_2}표")
-            st.progress(votes_1 / (votes_1 + votes_2 + 1e-_
+            st.progress(votes_1 / (votes_1 + votes_2 + 1e-_5)
