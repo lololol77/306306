@@ -116,4 +116,49 @@ def poll_block(question, label1, label2):
             votes_1 = sum(1 for e in entries if e.get("vote") == "1")
             votes_2 = sum(1 for e in entries if e.get("vote") == "2")
             st.write(f"📈 {label1}: {votes_1}표 | {label2}: {votes_2}표")
-            st.progress(votes_1 / (votes_1 + votes_2 + 1e-5))
+            st.progress(votes_1 / (votes_1 + votes_2 + 1e-5))  # 0으로 나눔 방지
+
+            st.markdown("**💬 친구들 의견**")
+            for e in entries:
+                if e.get("comment"):
+                    st.write(f"👉 {e['comment']}")
+        else:
+            st.info("아직 투표가 없습니다.")
+    except Exception as e:
+        st.error(f"❌ Firebase 응답 오류: {e}")
+
+# ----------------------------
+# 📊 앙케이트 통합 페이지
+# ----------------------------
+def poll_page_combined():
+    st.header("📊 앙케이트 참여하기")
+    poll_block("연금복권 vs 로또", "연금복권", "로또")
+    st.markdown("---")
+    poll_block("평생 라면 금지 vs 평생 탄산 금지", "라면 못 먹기", "탄산 못 먹기")
+    st.markdown("---")
+    poll_block("1년 폭염 vs 1년 장마", "1년 내내 폭염", "1년 내내 장마")
+
+# ----------------------------
+# 🚀 Streamlit 앱 실행
+# ----------------------------
+st.set_page_config(page_title="졸업기념 웹사이트", page_icon="🎓")
+st.title("🎓 우리 반 졸업기념 웹사이트")
+
+menu_options = (
+    ["💌 메시지 남기기", "📜 전체 보기"] +
+    [f"{i}번 보기" for i in range(0, 24)] +
+    ["📊 앙케이트 참여하기"]
+)
+
+menu = st.sidebar.selectbox("📋 메뉴를 선택하세요", menu_options)
+
+if menu == "💌 메시지 남기기":
+    message_input()
+elif menu == "📜 전체 보기":
+    view_messages()
+elif menu == "📊 앙케이트 참여하기":
+    poll_page_combined()
+else:
+    selected_number = int(menu.replace("번 보기", ""))
+    view_by_number(selected_number)
+
